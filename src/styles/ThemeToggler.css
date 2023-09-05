@@ -1,0 +1,37 @@
+.toggler {
+    height: 21px;
+    width: 35px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding-left: 3px;
+    padding-right: 3px;
+    cursor: pointer;
+}
+
+.circle {
+    height: 16px;
+    width: 16px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.4s;
+}
+
+.toggler-light {
+    background: rgb(190, 195, 224, 0.9);
+}
+
+.toggler-dark {
+    background: rgb(190, 195, 224, 0.2);
+}
+
+.toggler-light .circle {
+    background: var(--dark_bg);
+}
+
+.toggler-dark .circle {
+    background: var(--light_bg);
+    transform: translateX(18px);
+}

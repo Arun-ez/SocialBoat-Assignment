@@ -1,0 +1,30 @@
+.avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar img {
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+}
+
+.avatar p {
+    font-size: 16px;
+    font-weight: 400;
+}
+
+@media(0px <=width <=600px) {
+
+    .avatar img {
+        height: 25px;
+        width: 25px;
+    }
+
+    .avatar p {
+        font-size: 15px;
+        display: none;
+    }
+}

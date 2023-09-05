@@ -1,0 +1,24 @@
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.logo p {
+    font-weight: 600;
+}
+
+.icon {
+    font-size: 26px;
+}
+
+@media(0px <=width <=600px) {
+
+    .icon {
+        font-size: 22px;
+    }
+
+    .logo p {
+        font-size: 15px;
+    }
+}

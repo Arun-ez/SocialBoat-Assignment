@@ -1,0 +1,29 @@
+.results {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.heading {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+@media(900px <=width <=1300px) {
+    .results {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media(480px <=width <=900px) {
+    .results {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(0px <=width <=480px) {
+    .results {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
