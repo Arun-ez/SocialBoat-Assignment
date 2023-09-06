@@ -1,4 +1,4 @@
-# SocialBoat Assignment
+## SocialBoat Assignment
 
 This repository consist the codebase of the assignment provided by SocialBoat
 
@@ -15,14 +15,12 @@ Profile Image on right
 - Show the results in the cards. Ensure that the results are not stale (Match query string)
 - The card should have the video, query heading and tags returned by the API
 
-# Tech Stack
+## Tech Stack
 
 - React
 - Css
 
-# Instructions
-
-### Getting Started
+## Getting Started
 
 Check Deployed Version here https://fitnesscamp.vercel.app/
 
