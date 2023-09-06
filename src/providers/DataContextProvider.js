@@ -10,7 +10,7 @@ const DataContextProvider = ({ children }) => {
     const [query, setQuery] = useState('');
 
     useEffect(() => {
-        if (window.location.pathname !== '/') {
+        if (query && window.location.pathname !== '/') {
             navigate('/');
         }
     }, [query])
