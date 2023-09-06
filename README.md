@@ -15,10 +15,12 @@ Profile Image on right
 - Show the results in the cards. Ensure that the results are not stale (Match query string)
 - The card should have the video, query heading and tags returned by the API
 
-## Tech Stack
+# Tech Stack
 
 - React
 - Css
+
+# Instructions
 
 ### Getting Started
 
