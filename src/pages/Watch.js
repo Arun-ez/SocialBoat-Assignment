@@ -7,14 +7,14 @@ const Watch = () => {
     const title = useQuery().get('title');
     const description = useQuery().get('description');
     return (
-        <div className='watch'>
+        <main className='watch'>
 
             <div>
                 <video src={source} controls autoPlay></video>
                 <h2> {title} </h2>
                 <p> {description} </p>
             </div>
-        </div>
+        </main>
     )
 }
 

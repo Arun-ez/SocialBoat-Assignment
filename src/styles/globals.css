@@ -21,6 +21,7 @@ body {
 
 main {
   min-height: 90vh;
+  margin-top: 70px;
 }
 
 input {
@@ -53,4 +54,15 @@ button {
   border-radius: 10px;
   border: none;
   letter-spacing: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 0.6rem;
+  height: 0.6rem;
+  background: none;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(190, 195, 224, 0.8);
+  border-radius: 8px;
 }

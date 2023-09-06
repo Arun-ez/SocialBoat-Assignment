@@ -1,9 +1,14 @@
 .navbar {
-    height: 70px;
+    top: 0;
+    left: 0;
+    right: 0;
+    position: fixed;
+    height: 60px;
     display: flex;
     user-select: none;
     white-space: nowrap;
     transition: background 0.4s;
+    z-index: 10;
 }
 
 .nav-light {
@@ -33,10 +38,6 @@
 }
 
 @media(0px <=width <=600px) {
-
-    .navbar {
-        height: 60px;
-    }
 
     .search_icon {
         display: block;

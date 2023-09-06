@@ -7,7 +7,7 @@ import { Spinner } from "../components/Spinner";
 const Home = () => {
 
     const limit = 20;
-    const { user, query } = useContext(DataContext);
+    const { query } = useContext(DataContext);
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);

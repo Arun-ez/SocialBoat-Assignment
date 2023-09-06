@@ -23,11 +23,11 @@ const ColorModeProvider = ({ children }) => {
 
         /* handling body styles based on colormode */
         if (colorMode === 'dark') {
-            body.style.backgroundColor = 'var(--dark_bg)';
             body.style.color = 'var(--light_bg)';
+            body.style.backgroundColor = 'var(--dark_bg)';
         } else {
-            body.style.backgroundColor = 'var(--light_bg)';
             body.style.color = 'var(--dark_bg)';
+            body.style.backgroundColor = 'var(--light_bg)';
         }
 
     }, [colorMode]);
