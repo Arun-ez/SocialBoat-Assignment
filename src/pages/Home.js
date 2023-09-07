@@ -1,5 +1,5 @@
 import "../styles/Home.css";
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { DataContext } from '../providers/DataContextProvider';
 import { VideoCard } from "../components/VideoCard";
 import { Spinner } from "../components/Spinner";
@@ -12,7 +12,7 @@ const Home = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const search = async () => {
+    const search = useMemo(() => async () => {
 
         setLoading(true);
 
@@ -25,7 +25,7 @@ const Home = () => {
         }
 
         setLoading(false);
-    }
+    }, [query])
 
     /* Infinite Scroll */
     const loadMore = async () => {
@@ -61,8 +61,14 @@ const Home = () => {
         clearTimeout(timerId);
         timerId = setTimeout(() => {
             search()
-        }, 500)
-    }, [query])
+        }, 500);
+
+        return () => { clearTimeout(timerId) }
+    }, [search]);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [])
 
     return (
         <main>
@@ -76,7 +82,7 @@ const Home = () => {
             </div>
 
             <div className='results'>
-                {data.map((elm, idx) => {
+                {data?.map((elm, idx) => {
                     return (
                         <VideoCard data={elm} key={idx} />
                     )

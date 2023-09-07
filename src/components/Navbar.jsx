@@ -9,6 +9,7 @@ import { ThemeToggler } from "./ThemeToggler";
 import { FiSearch } from "react-icons/fi";
 import { BiLeftArrowAlt } from "react-icons/bi";
 import { DataContext } from "../providers/DataContextProvider";
+import { SearchBar } from "./SearchBar";
 
 const Navbar = () => {
 
@@ -23,12 +24,7 @@ const Navbar = () => {
             {showSearch ? (
                 <div>
                     <BiLeftArrowAlt fontSize={24} cursor={'pointer'} onClick={() => setShowSearch(false)} />
-                    <input
-                        value={query}
-                        onChange={({ target }) => setQuery(target.value)}
-                        type="text" placeholder="Search"
-                        className={colorMode === 'dark' ? 'input-dark' : 'input-light'}
-                    />
+                    <SearchBar value={query} onChange={({ target }) => setQuery(target.value)} />
                 </div>
             ) : (
                 <>
@@ -37,12 +33,7 @@ const Navbar = () => {
                     </div>
 
                     <div>
-                        <input
-                            value={query}
-                            onChange={({ target }) => setQuery(target.value)}
-                            type="text" placeholder="Search"
-                            className={colorMode === 'dark' ? 'input-dark' : 'input-light'}
-                        />
+                        <SearchBar value={query} onChange={({ target }) => setQuery(target.value)} />
                     </div>
 
                     <div>

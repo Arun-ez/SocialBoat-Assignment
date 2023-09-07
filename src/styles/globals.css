@@ -25,22 +25,9 @@ main {
 }
 
 input {
-  height: 30px;
-  width: 80%;
-  border-radius: 20px;
-  padding-left: 15px;
-  padding-right: 15px;
+  width: 100%;
   background: none;
-}
-
-.input-light {
-  color: black;
-  border: var(--border_light);
-}
-
-.input-dark {
-  color: white;
-  border: var(--border_dark);
+  border: none;
 }
 
 input:focus {

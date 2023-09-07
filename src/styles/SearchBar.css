@@ -1,0 +1,26 @@
+.input_group {
+    height: 35px;
+    width: 96%;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.input-light {
+    border: var(--border_light);
+}
+
+.input-light input {
+    color: black;
+}
+
+.input-dark {
+    border: var(--border_dark);
+}
+
+.input-dark input {
+    color: white;
+}
