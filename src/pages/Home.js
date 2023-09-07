@@ -66,10 +66,6 @@ const Home = () => {
         return () => { clearTimeout(timerId) }
     }, [search]);
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [])
-
     return (
         <main>
             <div className="heading">

@@ -8,7 +8,6 @@ const Watch = () => {
     const description = useQuery().get('description');
     return (
         <main className='watch'>
-
             <div>
                 <video src={source} controls autoPlay></video>
                 <h2> {title} </h2>
