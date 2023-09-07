@@ -1,11 +1,17 @@
 import "../styles/Watch.css";
 import { useQuery } from '../hooks/useQuery';
+import { useEffect } from "react";
 
 const Watch = () => {
 
     const source = useQuery().get('src');
     const title = useQuery().get('title');
     const description = useQuery().get('description');
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [])
+
     return (
         <main className='watch'>
             <div>
