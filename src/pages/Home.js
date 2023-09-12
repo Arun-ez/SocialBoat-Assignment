@@ -9,14 +9,34 @@ const Home = () => {
 
     const limit = 20;
     const { query } = useContext(DataContext);
+    const [store, setStore] = useState([]);
     const [data, setData] = useState([]);
     const [filterOptions, setFilterOptions] = useState([]);
     const [selected, setSelected] = useState([]);
     const [loading, setLoading] = useState(false);
 
-    const search = useMemo(() => async () => {
+    const search = async () => {
 
         setLoading(true);
+
+        if (selected.length > 0) {
+            let res = store?.filter(({ tags }) => {
+
+                for (let i = 0; i < selected.length; i++) {
+
+                    if (tags.includes(filterOptions[selected[i]])) {
+                        return true;
+                    }
+                }
+
+                return false;
+            })
+
+            setData(res);
+            setLoading(false);
+
+            return;
+        }
 
         try {
             let response = await fetch(`${process.env.REACT_APP_API}/assignmentVideos?q=${query || 'shine'}&numResults=${limit}`);
@@ -32,19 +52,7 @@ const Home = () => {
 
             const tagList = Array.from(set);
 
-            if (selected.length) {
-                let res = results?.filter(({ tags }) => {
-
-                    for (let i = 0; i < selected.length; i++) {
-                        if (tags.includes(tagList[selected[i]])) {
-                            return true;
-                        }
-                    }
-
-                    return false;
-                })
-            }
-
+            setStore(results);
             setData(results);
             setFilterOptions(tagList);
         } catch (error) {
@@ -52,7 +60,7 @@ const Home = () => {
         }
 
         setLoading(false);
-    }, [query])
+    }
 
     /* Infinite Scroll */
     const loadMore = async () => {
@@ -91,7 +99,11 @@ const Home = () => {
         }, 500);
 
         return () => { clearTimeout(timerId) }
-    }, [search, selected]);
+    }, [query]);
+
+    useEffect(() => {
+        search();
+    }, [selected])
 
     return (
         <main>
