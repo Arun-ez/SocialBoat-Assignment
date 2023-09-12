@@ -1,6 +1,7 @@
 import "../styles/Home.css";
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { DataContext } from '../providers/DataContextProvider';
+import { FilterBar } from "../components/FilterBar";
 import { VideoCard } from "../components/VideoCard";
 import { Spinner } from "../components/Spinner";
 
@@ -8,8 +9,9 @@ const Home = () => {
 
     const limit = 20;
     const { query } = useContext(DataContext);
-
     const [data, setData] = useState([]);
+    const [filterOptions, setFilterOptions] = useState([]);
+    const [selected, setSelected] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const search = useMemo(() => async () => {
@@ -19,7 +21,32 @@ const Home = () => {
         try {
             let response = await fetch(`${process.env.REACT_APP_API}/assignmentVideos?q=${query || 'shine'}&numResults=${limit}`);
             let { results } = await response.json();
+
+            const set = new Set();
+
+            results?.forEach(({ tags }) => {
+                tags.forEach((tag) => {
+                    set.add(tag);
+                })
+            })
+
+            const tagList = Array.from(set);
+
+            if (selected.length) {
+                let res = results?.filter(({ tags }) => {
+
+                    for (let i = 0; i < selected.length; i++) {
+                        if (tags.includes(tagList[selected[i]])) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                })
+            }
+
             setData(results);
+            setFilterOptions(tagList);
         } catch (error) {
             console.log(error);
         }
@@ -29,17 +56,17 @@ const Home = () => {
 
     /* Infinite Scroll */
     const loadMore = async () => {
-        setLoading(true);
+        // setLoading(true);
 
-        try {
-            let response = await fetch(`${process.env.REACT_APP_API}/assignmentVideos?q=${query || 'fun'}&numResults=${limit}`);
-            let { results } = await response.json();
-            setData((prevResults) => [...prevResults, ...results]);
-        } catch (error) {
-            console.log(error);
-        }
+        // try {
+        //     let response = await fetch(`${process.env.REACT_APP_API}/assignmentVideos?q=${query || 'fun'}&numResults=${limit}`);
+        //     let { results } = await response.json();
+        //     setData((prevResults) => [...prevResults, ...results]);
+        // } catch (error) {
+        //     console.log(error);
+        // }
 
-        setLoading(false);
+        // setLoading(false);
     }
 
     const onScroll = () => {
@@ -64,7 +91,7 @@ const Home = () => {
         }, 500);
 
         return () => { clearTimeout(timerId) }
-    }, [search]);
+    }, [search, selected]);
 
     return (
         <main>
@@ -74,8 +101,9 @@ const Home = () => {
                 ) : (
                     <h3> Recomended Videos for you </h3>
                 )}
-
             </div>
+
+            <FilterBar value={selected} onChange={setSelected} options={filterOptions} />
 
             <div className='results'>
                 {data?.map((elm, idx) => {
@@ -88,9 +116,6 @@ const Home = () => {
             {loading && (
                 <Spinner />
             )}
-
-
-
         </main>
     )
 }

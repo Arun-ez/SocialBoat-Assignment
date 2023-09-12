@@ -1,0 +1,25 @@
+.filter_bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+}
+
+.filter_bar p {
+    cursor: pointer;
+    padding: 3px 16px 3px 16px;
+    border-radius: 20px;
+}
+
+.selected {
+    color: black;
+    background-color: white;
+}
+
+.not_selected {
+    color: white;
+    background-color: #171923;
+    opacity: 80%;
+}
