@@ -2,23 +2,24 @@ import "../styles/FilterBar.css";
 import { useContext } from 'react';
 import { ColorModeContext } from "../providers/ColorModeProvider";
 
-
-const FilterBar = ({ value, onChange, options }) => {
+const FilterBar = ({ value, onChange, onFilter, options }) => {
 
     const { colorMode } = useContext(ColorModeContext);
 
     const onSelect = (tag) => {
 
+        let newValues;
+
         if (!value.has(tag)) {
-            onChange((prev) => new Set(prev).add(tag));
-            return;
+            newValues = new Set(value);
+            newValues.add(tag);
+        } else {
+            newValues = new Set(value);
+            newValues.delete(tag);
         }
 
-        onChange((prev) => {
-            const newValues = new Set(prev);
-            newValues.delete(tag);
-            return newValues;
-        })
+        onChange(newValues);
+        onFilter(newValues);
     }
 
     return (

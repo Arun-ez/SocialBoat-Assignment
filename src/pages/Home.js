@@ -1,9 +1,10 @@
 import "../styles/Home.css";
-import { useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { DataContext } from '../providers/DataContextProvider';
 import { FilterBar } from "../components/FilterBar";
 import { VideoCard } from "../components/VideoCard";
 import { Spinner } from "../components/Spinner";
+import { NoResults } from "../components/NoResults";
 
 const Home = () => {
 
@@ -15,30 +16,11 @@ const Home = () => {
     const [filterOptions, setFilterOptions] = useState(new Set());
     const [selected, setSelected] = useState(new Set());
 
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
-    const search = async () => {
+    const search = useCallback(async () => {
 
         setLoading(true);
-
-        if (selected.size > 0) {
-            let res = store?.filter(({ tags }) => {
-
-                for (let tag of selected) {
-
-                    if (tags.includes(tag)) {
-                        return true;
-                    }
-                }
-
-                return false;
-            })
-
-            setData(res);
-            setLoading(false);
-
-            return;
-        }
 
         try {
             let response = await fetch(`${process.env.REACT_APP_API}/assignmentVideos?q=${query || 'shine'}&numResults=${limit}`);
@@ -55,11 +37,34 @@ const Home = () => {
             setStore(results);
             setData(results);
             setFilterOptions(tagList);
+            setSelected(new Set());
         } catch (error) {
             console.log(error);
         }
 
         setLoading(false);
+    }, [query])
+
+    const filter = (selected) => {
+
+        if (!selected.size) {
+            setData(store);
+            return;
+        }
+
+        let results = store?.filter(({ tags }) => {
+
+            for (let tag of selected) {
+
+                if (tags.includes(tag)) {
+                    return true;
+                }
+            }
+
+            return false;
+        })
+
+        setData(results);
     }
 
     useEffect(() => {
@@ -70,11 +75,7 @@ const Home = () => {
         }, 500);
 
         return () => { clearTimeout(timerId) }
-    }, [query]);
-
-    useEffect(() => {
-        search();
-    }, [selected])
+    }, [query, search]);
 
     return (
         <main>
@@ -86,19 +87,30 @@ const Home = () => {
                 )}
             </div>
 
-            <FilterBar value={selected} onChange={setSelected} options={filterOptions} />
+            <FilterBar value={selected} onChange={setSelected} onFilter={filter} options={filterOptions} />
 
-            <div className='results'>
-                {data?.map((elm, idx) => {
-                    return (
-                        <VideoCard data={elm} key={idx} />
-                    )
-                })}
-            </div>
+            {data?.length ? (
 
-            {loading && (
-                <Spinner />
+                <div className='results'>
+                    {data.map((elm, idx) => {
+                        return (
+                            <VideoCard data={elm} key={idx} />
+                        )
+                    })}
+                </div>
+
+            ) : (
+
+                loading ? (
+                    <Spinner />
+                ) : (
+                    <NoResults />
+                )
+
             )}
+
+
+
         </main>
     )
 }
