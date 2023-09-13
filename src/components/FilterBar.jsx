@@ -1,27 +1,43 @@
 import "../styles/FilterBar.css";
-import React, { useEffect } from 'react'
+import { useContext } from 'react';
+import { ColorModeContext } from "../providers/ColorModeProvider";
 
-const FilterBar = ({ value = [], onChange, options = [] }) => {
 
-    const onSelect = (index) => {
+const FilterBar = ({ value, onChange, options }) => {
 
-        if (!value.includes(index)) {
-            onChange((prev) => [...prev, index]);
+    const { colorMode } = useContext(ColorModeContext);
+
+    const onSelect = (tag) => {
+
+        if (!value.has(tag)) {
+            onChange((prev) => new Set(prev).add(tag));
             return;
         }
 
         onChange((prev) => {
-            const newValues = [...prev];
-            newValues.splice(value.indexOf(index), 1);
-
+            const newValues = new Set(prev);
+            newValues.delete(tag);
             return newValues;
         })
     }
 
     return (
         <div className="filter_bar">
-            {options.map((tag, idx) => {
-                return <p key={idx} onClick={() => { onSelect(idx) }} className={value.includes(idx) ? 'selected' : 'not_selected'}  > {tag} </p>
+            {Array.from(options).map((tag, idx) => {
+                return (
+                    <p
+                        key={idx}
+                        onClick={() => { onSelect(tag) }}
+                        className={`${colorMode === 'dark' ?
+                            `filterbar-dark ${value.has(tag) ? 'selected-dark' : 'not_selected'}`
+                            :
+                            `filterbar-light ${value.has(tag) ? 'selected-light' : 'not_selected'}`
+                            }`
+                        }
+                    >
+                        {tag}
+                    </p>
+                )
             })}
         </div>
     )

@@ -14,13 +14,24 @@
     border-radius: 20px;
 }
 
-.selected {
+.selected-light {
+    color: white;
+    background-color: black;
+}
+
+.selected-dark {
     color: black;
     background-color: white;
 }
 
 .not_selected {
-    color: white;
-    background-color: #171923;
     opacity: 80%;
+}
+
+.filterbar-light {
+    border: var(--border_light);
+}
+
+.filterbar-dark {
+    border: var(--border_dark);
 }

@@ -1,5 +1,5 @@
 import "../styles/Home.css";
-import { useContext, useEffect, useMemo, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { DataContext } from '../providers/DataContextProvider';
 import { FilterBar } from "../components/FilterBar";
 import { VideoCard } from "../components/VideoCard";
@@ -11,20 +11,22 @@ const Home = () => {
     const { query } = useContext(DataContext);
     const [store, setStore] = useState([]);
     const [data, setData] = useState([]);
-    const [filterOptions, setFilterOptions] = useState([]);
-    const [selected, setSelected] = useState([]);
+
+    const [filterOptions, setFilterOptions] = useState(new Set());
+    const [selected, setSelected] = useState(new Set());
+
     const [loading, setLoading] = useState(false);
 
     const search = async () => {
 
         setLoading(true);
 
-        if (selected.length > 0) {
+        if (selected.size > 0) {
             let res = store?.filter(({ tags }) => {
 
-                for (let i = 0; i < selected.length; i++) {
+                for (let tag of selected) {
 
-                    if (tags.includes(filterOptions[selected[i]])) {
+                    if (tags.includes(tag)) {
                         return true;
                     }
                 }
@@ -42,15 +44,13 @@ const Home = () => {
             let response = await fetch(`${process.env.REACT_APP_API}/assignmentVideos?q=${query || 'shine'}&numResults=${limit}`);
             let { results } = await response.json();
 
-            const set = new Set();
+            const tagList = new Set();
 
             results?.forEach(({ tags }) => {
                 tags.forEach((tag) => {
-                    set.add(tag);
+                    tagList.add(tag);
                 })
             })
-
-            const tagList = Array.from(set);
 
             setStore(results);
             setData(results);
@@ -61,35 +61,6 @@ const Home = () => {
 
         setLoading(false);
     }
-
-    /* Infinite Scroll */
-    const loadMore = async () => {
-        // setLoading(true);
-
-        // try {
-        //     let response = await fetch(`${process.env.REACT_APP_API}/assignmentVideos?q=${query || 'fun'}&numResults=${limit}`);
-        //     let { results } = await response.json();
-        //     setData((prevResults) => [...prevResults, ...results]);
-        // } catch (error) {
-        //     console.log(error);
-        // }
-
-        // setLoading(false);
-    }
-
-    const onScroll = () => {
-        let total_height = window.innerHeight;
-        let container_scroll_height = document.documentElement.scrollHeight;
-        let scroll_top = document.documentElement.scrollTop;
-        if (total_height + scroll_top + 2 > container_scroll_height) {
-            loadMore();
-        }
-    }
-
-    useEffect(() => {
-        window.addEventListener('scroll', onScroll);
-        return () => { window.removeEventListener('scroll', onScroll) };
-    }, [])
 
     useEffect(() => {
         let timerId = null;
