@@ -21,10 +21,6 @@ Imagine that you are a fitness influencer in addition to being a star programmer
 
 ## Getting Started
 
-Check Deployed Version here https://fitnesscamp.vercel.app/
-
-or
-
 Follow the instructions provided below to run the application locally.
 
 ### Prerequisites
